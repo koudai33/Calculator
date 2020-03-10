@@ -6,10 +6,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Demo',//最近使ったアプリ一覧に表示される時の名前
       theme: ThemeData(
         primarySwatch: Colors.orange,
         //アプリのテーマカラーを決める
+
       ),
       home: MyHomePage(title: 'calculator'),
     );
@@ -17,10 +18,10 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key, this.title}) :super (key: key);
   final String title;
   @override
-  _MyHomePageState createState() => new _MyHomePageState();
+  _MyHomePageState createState() =>  _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {//複雑な処理はこちらのStateクラスに記入する
@@ -37,26 +38,26 @@ buttonPressed(String buttonText){//ボタンが押された時の処理
     num1 = 0.0;
     num2 = 0.0;
     operand = "";
-  }else if(buttonText == "+" || buttonText == "-" || buttonText == "/" || buttonText == "x"){
-    num1 = double.parse(output);
+  }else if(buttonText == "+" || buttonText == "-" || buttonText == "/" || buttonText == "X"){
+    num1 = double.parse(output);//parse()メソッドで文字列を浮動小数点
     operand = buttonText;
     _output = "0";
   }else if(buttonText == "."){
-    if(_output.contains(".")){
+    if(_output.contains(".")){//与えられた要素がリストにあるか確認する
       print( "already conataind a decimals");
       return;
     }else{
       _output = _output + buttonText;
     }
   }else if(buttonText == "="){
-    num2 = double.parse(output);
+    num2 = double.parse(output);//parse()メソッドで文字列を浮動小数点に変換
     if(operand == "+"){
       _output = (num1 + num2).toString();
     }
     if(operand == "-"){
       _output = (num1 - num2).toString();
     }
-    if(operand == "x"){
+    if(operand == "X"){
       _output = (num1 * num2).toString();
     }
     if(operand == "/"){
@@ -71,16 +72,23 @@ buttonPressed(String buttonText){//ボタンが押された時の処理
   }
  print(_output);
 
+
   setState(() {
-    output = double.parse(_output).toStringAsFixed(2);
+    output = double.parse(_output).toStringAsFixed(2);//少数第何位まで表示するか
   });
 }
 
 
   Widget buildBoutton(String buttonText){
     return new Expanded(
-      child: new OutlineButton(
-        padding: new EdgeInsets.all(24.0),
+      child: new RaisedButton(//ボタンの設定
+      color: Colors.white,
+        shape: CircleBorder(
+          side: BorderSide(
+          color: Colors.black,
+          width: 1.0,
+          style: BorderStyle.solid,)),
+        padding: new EdgeInsets.all(30.0),
          child: new Text(buttonText,
          style: TextStyle(
            fontSize: 24.0,
@@ -88,14 +96,14 @@ buttonPressed(String buttonText){//ボタンが押された時の処理
          ),),
         onPressed: () => buttonPressed(buttonText),
               splashColor: Colors.orange,
-      )
+     )
     );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//アプリのUIデザインを担当する
     return Scaffold(
-      appBar: AppBar(
+      appBar: AppBar(//
         title: Text(widget.title),
       ),
       body: new Container(
