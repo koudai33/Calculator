@@ -4,7 +4,7 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
-  Widget build(BuildContext buildContext) {
+  Widget build(BuildContext buildcx) {
     return  new MaterialApp(
       title: 'Calculator',//最近使ったアプリ一覧に表示される時の名前
       home: new CloneCalc(),
@@ -33,7 +33,8 @@ Widget btn(btnText, Color color){
     child: new RaisedButton(
       child: Text(btnText,
       style: TextStyle(
-        fontSize:30
+        fontSize:30,
+        color: Colors.white
       ),),
       onPressed: (){
         calculation(btnText);
@@ -52,7 +53,8 @@ Widget btnZero(btnText, Color color){
     child: new RaisedButton(
       child:Text( btnText,
       style:TextStyle(
-        fontSize: 30
+        fontSize: 30,
+        color: Colors.white,
       ),
       ),
       onPressed: (){
@@ -66,7 +68,7 @@ Widget btnZero(btnText, Color color){
 }
 
 
-Widget build(BuildContext buildContext){
+Widget build(BuildContext buildcx){
   return new Scaffold(
     appBar:null,//appbarは必要ないのでnullしている
     backgroundColor:Colors.black,
@@ -164,8 +166,6 @@ void calculation(btnText){
     }else{
       num2 = double.parse(result);
     }
-
-
     if(opr == '+') {
           finalresult = add();
       } else if( opr == '-') {
@@ -200,7 +200,7 @@ else {
   finalresult = result;
 }
 
-setState(() {//statefulwidgetを使う場合はsetstateが必要になる
+setState(() {//statefulwidgetを使う場合はsetStateが必要になる
 //画面の状態の変更を反映させるためにこれを使う必要がある
 //Flutterは画面の一部を書き直すということができない
   text = finalresult;
