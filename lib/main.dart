@@ -8,6 +8,7 @@ class MyApp extends StatelessWidget {
     return  new MaterialApp(
       title: 'Calculator',//最近使ったアプリ一覧に表示される時の名前
       home: new CloneCalc(),
+
     );
   }
 }
