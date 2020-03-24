@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp( MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
@@ -8,7 +8,6 @@ class MyApp extends StatelessWidget {
     return  new MaterialApp(
       title: 'Calculator',//最近使ったアプリ一覧に表示される時の名前
       home: new CloneCalc(),
-
     );
   }
 }
@@ -19,13 +18,13 @@ class CloneCalc extends StatefulWidget {
 
 class CloneCalcState extends State<CloneCalc> {//複雑な処理はこちらのStateクラスに記入する
 //デフォルトの状態
-  String text = '';
-  double num1 = 0.0;
-  double num2 = 0.0;
-  String finalresult = '';
-  String result = '';
-  String opr = '';
-  String preopr = '';
+  dynamic text = '0';
+  double num1 = 0;
+  double num2 = 0;
+  dynamic finalresult = '';
+  dynamic result = '';
+  dynamic opr = '';
+  dynamic preopr = '';
 
 //bottonの形や余白
 Widget btn(btnText, Color color){
@@ -92,6 +91,7 @@ Widget build(BuildContext buildContext){
           ),
           Row (
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //子Widgetを横に並べていくCrossAxisAlignmentは縦に並べていく
             children: <Widget>[
               btn('C',const Color(0xffa5a5a5)), // AARRGGBB
               btn('+/-',const Color(0xffa5a5a5)),
@@ -109,7 +109,7 @@ Widget build(BuildContext buildContext){
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children:<Widget>[
-                btn('4',const Color(0xff333333)),
+              btn('4',const Color(0xff333333)),
               btn('5',const Color(0xff333333)),
               btn('6',const Color(0xff333333)),
               btn('-',Colors.orange),
@@ -135,6 +135,7 @@ Widget build(BuildContext buildContext){
   );
 }
 
+//計算の処理
 void calculation(btnText){
   if(btnText == 'C'){
     text = '0';
@@ -159,7 +160,7 @@ void calculation(btnText){
   }else if(btnText == '+' || btnText == '-' || btnText == 'X' || btnText == '/' || btnText == '='){
 
     if(num1 == 0){
-      num1 = double.parse(result);
+      num1 = double.parse(result);//resultを文字列からdouble型に変更
     }else{
       num2 = double.parse(result);
     }
@@ -180,7 +181,7 @@ void calculation(btnText){
 
   }
 else if(btnText == '%'){
-  result = (num1/100) as String;
+  result = num1/100;
   finalresult = doesContainDecimal(result);
 }else if(btnText == '.'){
   if(!result.toString().contains('.')){
@@ -189,7 +190,9 @@ else if(btnText == '%'){
   finalresult = result;
 }
 else if(btnText == '+/-'){
-  result.toString().startsWith('-') ? result = result.toString().substring(1):result = '-' + result.toString();
+  result.toString().startsWith('-') ? result = result.toString().substring(1) : result = '-' + result.toString();
+  //条件式 ? 真の場合 : 偽の場合
+  //substring [1] -
   finalresult = result;
 }
 else {
@@ -197,14 +200,16 @@ else {
   finalresult = result;
 }
 
-setState(() {
+setState(() {//statefulwidgetを使う場合はsetstateが必要になる
+//画面の状態の変更を反映させるためにこれを使う必要がある
+//Flutterは画面の一部を書き直すということができない
   text = finalresult;
 });
 }
 
 String add(){
   result = (num1 + num2).toString();
-  num1 = double.parse(result);
+  num1 = double.parse(result);//resultを文字列からdouble型に変更
   return doesContainDecimal(result);
 }
 
@@ -224,8 +229,8 @@ String sub() {
           return doesContainDecimal(result);
   }
 
+//resultの中に.がないか確認
   String doesContainDecimal(dynamic result) {
-
     if(result.toString().contains('.')) {
         List<String> splitDecimal = result.toString().split('.');
         if(!(int.parse(splitDecimal[1]) > 0))
@@ -233,9 +238,5 @@ String sub() {
     }
     return result;
   }
-
-
-
-
 }
 
