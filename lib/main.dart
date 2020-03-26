@@ -78,7 +78,7 @@ Widget build(BuildContext buildcx){
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
           Row(children: <Widget>[
-            Expanded(
+            Expanded(//横の間を埋める
               child: Text(
                 text,
                 style: TextStyle(
@@ -157,9 +157,11 @@ void calculation(btnText){
       finalresult = mul();
     }else if(preopr == '/'){
       finalresult = div();
+    }else if(preopr == '%'){
+      finalresult = percent();
     }
 
-  }else if(btnText == '+' || btnText == '-' || btnText == 'X' || btnText == '/' || btnText == '='){
+  }else if(btnText == '+' || btnText == '-' || btnText == 'X' || btnText == '/' || btnText == '='|| btnText == '%'){
 
     if(num1 == 0){
       num1 = double.parse(result);//resultを文字列からdouble型に変更
@@ -174,27 +176,34 @@ void calculation(btnText){
           finalresult = mul();
       } else if( opr == '/') {
           finalresult = div();
+      }else if(opr == '%'){
+        finalresult = percent();
       }
       preopr = opr;
       opr = btnText;
       result = '';
 
   }
+
 else if(btnText == '%'){
   result = num1/100;
+  result = result.toString();
   finalresult = doesContainDecimal(result);
+
 }else if(btnText == '.'){
   if(!result.toString().contains('.')){
     result = result.toString()+ '.';
   }
   finalresult = result;
 }
+
 else if(btnText == '+/-'){
   result.toString().startsWith('-') ? result = result.toString().substring(1) : result = '-' + result.toString();
   //条件式 ? 真の場合 : 偽の場合
   //substring [1] -
   finalresult = result;
 }
+
 else {
   result = result + btnText;
   finalresult = result;
@@ -218,7 +227,6 @@ String sub() {
           num1 = double.parse(result);
          return doesContainDecimal(result);
   }
-
    String mul() {
          result = (num1 * num2).toString();
           num1 = double.parse(result);
@@ -226,6 +234,10 @@ String sub() {
   } String div() {
           result = (num1 / num2).toString();
            num1 = double.parse(result);
+          return doesContainDecimal(result);
+  }String percent(){
+          result = (num1 * (num2/100)).toString();
+          num1 = double.parse(result);
           return doesContainDecimal(result);
   }
 
