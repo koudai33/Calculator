@@ -1,30 +1,30 @@
 import 'package:flutter/material.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
 
   Widget build(BuildContext buildcx) {
     return  new MaterialApp(
-      title: 'Calculator',//最近使ったアプリ一覧に表示される時の名前
+      debugShowCheckedModeBanner: false,//右上の帯を非表示にする
+      title: 'Calculator',//最近使ったアプリに表示される時の名前
       home: new CloneCalc(),
     );
   }
 }
 
-class CloneCalc extends StatefulWidget {
+class CloneCalc extends StatefulWidget {//状態が変更する
   CloneCalcState createState() =>  CloneCalcState();
 }
 
-class CloneCalcState extends State<CloneCalc> {//複雑な処理はこちらのStateクラスに記入する
+class CloneCalcState extends State<CloneCalc> {
 //デフォルトの状態
-  dynamic text = '0';
-  double num1 = 0;
-  double num2 = 0;
-  dynamic finalresult = '';
-  dynamic result = '';
-  dynamic opr = '';
-  dynamic preopr = '';
+  static dynamic text = '0';//dynamicはその都度型を変えられる
+  static double num1 = 0;
+  static double num2 = 0;
+  static dynamic finalresult = '';
+  static dynamic result = '';
+  static dynamic opr = '';
+  static dynamic preopr = '';
 
 //bottonの形や余白
 Widget btn(btnText, Color color){
@@ -93,7 +93,7 @@ Widget build(BuildContext buildcx){
           ),
           Row (
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //子Widgetを横に並べていくCrossAxisAlignmentは縦に並べていく
+            //子Widgetを横に並べていく CrossAxisAlignmentは縦に並べていく
             children: <Widget>[
               btn('C',const Color(0xffa5a5a5)), // AARRGGBB
               btn('+/-',const Color(0xffa5a5a5)),
@@ -185,12 +185,7 @@ void calculation(btnText){
 
   }
 
-else if(btnText == '%'){
-  result = num1/100;
-  result = result.toString();
-  finalresult = doesContainDecimal(result);
-
-}else if(btnText == '.'){
+else if(btnText == '.'){
   if(!result.toString().contains('.')){
     result = result.toString()+ '.';
   }
@@ -209,39 +204,37 @@ else {
   finalresult = result;
 }
 
-setState(() {//statefulwidgetを使う場合はsetStateが必要になる
+setState(() {
 //画面の状態の変更を反映させるためにこれを使う必要がある
 //Flutterは画面の一部を書き直すということができない
   text = finalresult;
 });
 }
-
 String add(){
   result = (num1 + num2).toString();
   num1 = double.parse(result);//resultを文字列からdouble型に変更
   return doesContainDecimal(result);
 }
-
-String sub() {
+String sub() {//subtract
          result = (num1 - num2).toString();
           num1 = double.parse(result);
          return doesContainDecimal(result);
   }
-   String mul() {
+   String mul() {//multiply
          result = (num1 * num2).toString();
           num1 = double.parse(result);
          return doesContainDecimal(result);
-  } String div() {
+  } String div() {//division
           result = (num1 / num2).toString();
            num1 = double.parse(result);
           return doesContainDecimal(result);
   }String percent(){
           result = (num1 * (num2/100)).toString();
-          num1 = double.parse(result);
+          num1 = double.parse(result);//もう一度double型にすることで、続けて計算できるようにしている
           return doesContainDecimal(result);
   }
 
-//resultの中に.がないか確認
+//resultの中に.がないか確認するため
   String doesContainDecimal(dynamic result) {
     if(result.toString().contains('.')) {
         List<String> splitDecimal = result.toString().split('.');
